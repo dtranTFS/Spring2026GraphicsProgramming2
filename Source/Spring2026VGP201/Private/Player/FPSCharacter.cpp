@@ -10,6 +10,23 @@ AFPSCharacter::AFPSCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	if (!FPSCameraComponent) {
+		FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera")); // AddComponent in Unity
+		FPSCameraComponent->SetupAttachment(CastChecked<USceneComponent, UCapsuleComponent>(GetCapsuleComponent()));
+		FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
+		FPSCameraComponent->bUsePawnControlRotation = true;
+	}
+
+	if (!FPSMeshComponent) {
+		FPSMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+		FPSMeshComponent->SetupAttachment(FPSCameraComponent);
+		FPSMeshComponent->bCastDynamicShadow = false;
+		FPSMeshComponent->CastShadow = false;
+	}
+
+	GetMesh()->SetOwnerNoSee(true);
+
+	UE_LOG(LogTemp, Warning, TEXT("FPSCharacter Constructor Called"));
 }
 
 // Called when the game starts or when spawned
