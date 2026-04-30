@@ -11,6 +11,8 @@ AFPSProjectile::AFPSProjectile()
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	CollisionComponent->InitSphereRadius(15.0f);
+	CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
+	CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnWhateverWeWantToNameThis); // Add OnHit event, similar to Unity's OnCollisionEnter
 	RootComponent = CollisionComponent;
 
 	ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
@@ -69,5 +71,13 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 	// 4. const FVector& ShootDirection: Pass by const reference, efficient and safe. No need to dereference, but cannot update the value of the vector. This is the best option for this function if we don't need to update the shoot direction.
 
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+}
+
+void AFPSProjectile::OnWhateverWeWantToNameThis(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor != this && OtherComponent->IsSimulatingPhysics()) {
+		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+		Destroy();
+	}
 }
 
