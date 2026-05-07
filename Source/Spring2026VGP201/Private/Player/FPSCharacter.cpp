@@ -2,6 +2,8 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "HUD/GameHUD.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/FPSCharacter.h"
 
 // Sets default values
@@ -124,5 +126,19 @@ void AFPSCharacter::Fire()
 	// Launch spawned projectile in the camera rotation
 	FVector LaunchDirection = MuzzleRotation.Vector();
 	Projectile->FireInDirection(LaunchDirection);
+
+	OnHurtPlayer(10.0f);
+}
+
+void AFPSCharacter::OnHurtPlayer(float DamageAmount)
+{
+	if (DamageAmount <= 0.0f) return;
+
+	if (Health <= 0.0f) return;
+
+	Health -= DamageAmount;
+
+	AGameHUD* HUD = UGameplayStatics::GetPlayerController(this, 0)->GetHUD<AGameHUD>();
+	HUD->GameMenuWidgetContainer->UpdateHealthBar(Health / MaxHealth);
 }
 

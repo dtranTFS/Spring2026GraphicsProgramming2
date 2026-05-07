@@ -12,6 +12,9 @@ void AGameHUD::BeginPlay()
 
 	// 2. Slate method of making UI
 	// ShowSettingsWidget();
+
+	// 3. UMG method of making UI
+	SpawnGameMenuWidget();
 }
 
 void AGameHUD::DrawHUD()
@@ -43,6 +46,21 @@ void AGameHUD::DrawHUD()
 	FCanvasTileItem TileItem(FinalCrosshairPos, CrosshairTexture->GetResource(), FinalCrosshairSize, FLinearColor::White);
 	TileItem.BlendMode = SE_BLEND_Translucent;
 	Canvas->DrawItem(TileItem);
+}
+
+void AGameHUD::SpawnGameMenuWidget()
+{
+	// Delete game menu widget if it already exists
+	if (GameMenuWidgetContainer) {
+		GameMenuWidgetContainer->RemoveFromParent();
+		GameMenuWidgetContainer = nullptr;
+	}
+
+	GameMenuWidgetContainer = CreateWidget<UGameMenuWidget>(GetWorld(), GameMenuWidgetClass);
+	GameMenuWidgetContainer->AddToViewport();
+
+	PlayerOwner->bShowMouseCursor = false;
+	PlayerOwner->SetInputMode(FInputModeGameOnly());
 }
 
 void AGameHUD::ShowSettingsWidget() {

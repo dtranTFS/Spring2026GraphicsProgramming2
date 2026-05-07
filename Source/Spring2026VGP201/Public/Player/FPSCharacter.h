@@ -75,4 +75,11 @@ public:
 
 	UFUNCTION()
 	void Fire();
+
+	UFUNCTION()
+	void OnHurtPlayer(float DamageAmount);
+
+private:
+	float Health = 100.0f;
+	float MaxHealth = 100.0f;
 };
