@@ -13,6 +13,8 @@
 class UInputMappingContext;
 class UInputAction;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDied);
+
 UCLASS()
 class SPRING2026VGP201_API AFPSCharacter : public ACharacter
 {
@@ -60,6 +62,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AFPSProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere)
+	FOnPlayerDied OnPlayerDied;
 
 	UFUNCTION()
 	void Move(const FInputActionValue& Value);

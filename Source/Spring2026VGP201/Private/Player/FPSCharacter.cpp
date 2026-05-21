@@ -140,5 +140,10 @@ void AFPSCharacter::OnHurtPlayer(float DamageAmount)
 
 	AGameHUD* HUD = UGameplayStatics::GetPlayerController(this, 0)->GetHUD<AGameHUD>();
 	HUD->GameMenuWidgetContainer->UpdateHealthBar(Health / MaxHealth);
+
+	if(Health <= 0.0f)
+	{
+		OnPlayerDied.Broadcast();
+	}
 }
 

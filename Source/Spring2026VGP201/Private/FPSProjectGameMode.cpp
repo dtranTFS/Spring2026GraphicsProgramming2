@@ -44,4 +44,16 @@ void AFPSProjectGameMode::StartPlay()
 
 	// 7. Modern unreal way of logging without specifiers
 	UE_LOGFMT(LogTemp, Warning, "TestNumber: {0}, TestBool: {1}, TestString: {2}", TestNumber, TestBool, "This is my string");
+
+	// Get player and bind on died
+	AFPSCharacter* PlayerCharacter = Cast<AFPSCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+	if (PlayerCharacter) {
+		PlayerCharacter->OnPlayerDied.AddDynamic(this, &AFPSProjectGameMode::GoToGameOver);
+	}
+}
+
+void AFPSProjectGameMode::GoToGameOver()
+{
+	// Change GameMap to your gameover map
+	UGameplayStatics::OpenLevel(this, FName("GameMap"));
 }

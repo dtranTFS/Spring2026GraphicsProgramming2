@@ -4,6 +4,7 @@
 
 #include "Components/SphereComponent.h"
 #include "CoreMinimal.h"
+#include "Enemy/EnemyCharacter.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "FPSProjectile.generated.h"
