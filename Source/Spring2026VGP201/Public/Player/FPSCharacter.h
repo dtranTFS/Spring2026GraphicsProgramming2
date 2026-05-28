@@ -84,6 +84,8 @@ public:
 	UFUNCTION()
 	void OnHurtPlayer(float DamageAmount);
 
+	float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
 private:
 	float Health = 100.0f;
 	float MaxHealth = 100.0f;

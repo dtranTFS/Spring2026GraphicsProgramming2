@@ -147,3 +147,9 @@ void AFPSCharacter::OnHurtPlayer(float DamageAmount)
 	}
 }
 
+float AFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	OnHurtPlayer(DamageAmount);
+	return DamageAmount;
+}
+

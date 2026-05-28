@@ -29,6 +29,8 @@ public:
 	UFUNCTION()
 	void OnEnemyTakeDamage(float Amount);
 
+	float Damage = 10.0f;
+
 private:
 	int Health = 100;
 };
